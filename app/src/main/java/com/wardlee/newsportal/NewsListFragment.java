@@ -24,7 +24,7 @@ public class NewsListFragment extends Fragment {
     private static final String TAG = "NewsListFragment";
 
     // Member variables
-    private NewsOutlet Outlet;
+    private NewsOutlet Outlet; // Outlet detail object
 
     // Constructor
     public NewsListFragment(NewsOutlet outlet) {
@@ -44,10 +44,9 @@ public class NewsListFragment extends Fragment {
         FrameLayout thisFragment = getActivity().findViewById(R.id.fragment_placeholder);
         thisFragment.bringToFront();
 
+        // Set the logo image and background colour 
         LinearLayout logoWrapper = view.findViewById(R.id.linearLayout_logoWrapper);
         logoWrapper.setBackgroundColor(Color.parseColor(Outlet.getBrandColor()));
-
-        // Set the logo image
         ImageView logo = view.findViewById(R.id.imageView_logo);
         Outlet.setLogoImage(logo);
 
