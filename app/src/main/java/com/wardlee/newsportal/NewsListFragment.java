@@ -11,13 +11,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
+
 
 public class NewsListFragment extends Fragment {
     // Tag for debugging
@@ -33,6 +32,7 @@ public class NewsListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+
         // Define the layout file for the fragment
         return inflater.inflate(R.layout.fragment_newslist, parent, false);
     }
@@ -44,7 +44,7 @@ public class NewsListFragment extends Fragment {
         FrameLayout thisFragment = getActivity().findViewById(R.id.fragment_placeholder);
         thisFragment.bringToFront();
 
-        // Set the logo image and background colour 
+        // Set the logo image and background colour
         LinearLayout logoWrapper = view.findViewById(R.id.linearLayout_logoWrapper);
         logoWrapper.setBackgroundColor(Color.parseColor(Outlet.getBrandColor()));
         ImageView logo = view.findViewById(R.id.imageView_logo);

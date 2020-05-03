@@ -5,12 +5,45 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import javax.net.ssl.HttpsURLConnection;
 
+
+public class MainActivity extends AppCompatActivity {
+    // Tag for debugging
+    private static final String TAG = "MainActivity";
+
+
+    /**
+     * OnCreate, where all the action starts
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +66,136 @@ public class MainActivity extends AppCompatActivity {
 
         // Add a basic divider between the items
         rvOutlets.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        // Request the latest articles from NewsAPI.org
+        String feedURL = "https://newsapi.org/v2/top-headlines?country=au&pageSize=1&apiKey=aee4fbcb084948f185beee555aabaf62";
+        if(isInternetAvailable()) {
+            new JSONRequest().execute(feedURL);
+        } else {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Network error");
+            alertDialog.setMessage("Please check your network connection so you can see the latest news from NewsAPI.org and access links in this application.");
+            alertDialog.show();
+        }
     }
 
-    // Method to add the news outlet objects
-    // Created a separate method to keep onCreate() tidy, and keep all information about an outlet together
+
+    /**
+     * Utility function to check if the internet is available before trying to fetch live news
+     * @link https://stackoverflow.com/questions/9570237/android-check-internet-connection/33764301
+     *
+     * @return bool
+     */
+    public boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+
+    /**
+     * Class to request JSON data from an API URL
+     * Based on:
+     * @link https://github.com/JEEricsson/test-News/blob/master/app/src/main/java/com/jeanerik/newsapp/ArticlesActivity.java
+     */
+    private class JSONRequest extends AsyncTask<String, String, String> {
+
+        private ProgressDialog pd;
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setMessage("Loading latest news from NewsAPI.org");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "";
+            URL url;
+            HttpsURLConnection urlConnection = null;
+
+            try {
+                url = new URL(urls[0]);
+                urlConnection = (HttpsURLConnection) url.openConnection();
+
+                if (result != null) {
+                    String response = streamToString(urlConnection.getInputStream());
+                    parseResult(response);
+                    return result;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                pd.dismiss();
+            } else {
+                Log.d(TAG, "Issue in onPostExecute");
+            }
+        }
+    }
+
+    String streamToString(InputStream stream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+        String line;
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result += line;
+        }
+        if (null != stream) {
+            stream.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Parsing the feed results and get the list
+     * @param result
+     */
+    private void parseResult(String result) {
+
+        try {
+            JSONObject response = new JSONObject(result);
+            JSONArray posts = response.optJSONArray("articles");
+
+            // Get the first article and populate the layout
+            for (int i = 0; i < 1; i++) {
+
+                // Get the data from the JSON object
+                JSONObject post = posts.optJSONObject(i);
+                String title = post.optString("title");
+                String image = post.optString("urlToImage");
+                String description = post.optString("description");
+                String url = post.optString("url");
+
+                // The interface elements
+                ImageView articleImage = findViewById(R.id.imageView_latestArticleImage);
+                TextView articleTitle = findViewById(R.id.textView_latestArticleTitle);
+
+                // Populate
+                articleTitle.setText(title);
+            }
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Method to add the news outlet list objects
+     * Created a separate method to keep onCreate() tidy, and keep all information loaded about each outlet together
+     *
+     * @return ArrayList
+     */
     protected ArrayList<NewsOutlet> createNewsOutlets() {
 
         // Create array lists of category links for each news outlet object

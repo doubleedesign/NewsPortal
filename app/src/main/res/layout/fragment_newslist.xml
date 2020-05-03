@@ -42,8 +42,7 @@
         android:layout_height="3dp"
         android:layout_below="@id/textView_heading"/>
 
-
-    <!--RecyclerView list of links-->
+    <!--RecyclerView list of category links-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_links"
         android:layout_width="match_parent"
