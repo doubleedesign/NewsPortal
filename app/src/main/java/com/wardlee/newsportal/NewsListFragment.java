@@ -24,7 +24,7 @@ public class NewsListFragment extends Fragment {
     private static final String TAG = "NewsListFragment";
 
     // Member variables
-    NewsOutlet Outlet;
+    private NewsOutlet Outlet;
 
     // Constructor
     public NewsListFragment(NewsOutlet outlet) {
