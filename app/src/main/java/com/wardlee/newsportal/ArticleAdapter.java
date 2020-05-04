@@ -39,7 +39,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             // The interface elements
             ArticleWrapper = itemView.findViewById(R.id.layout_articleItem);
             ArticleTitle = itemView.findViewById(R.id.textView_articleTitle);
-            //LinkURL = itemView.findViewById(R.id.textView_articleURL);
+            LinkURL = itemView.findViewById(R.id.textView_articleURL);
 
             // Add click listener to each item
             ArticleWrapper.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +80,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
         // Get layout elements for this item
         TextView label = view.findViewById(R.id.textView_articleTitle);
-        //TextView url = view.findViewById(R.id.textView_URL);
+        TextView url = view.findViewById(R.id.textView_articleURL);
 
         // Set the label text
         label.setText(article.getTitle());
 
         // Set the URL value
-        //url.setText(article.getURL());
+        url.setText(article.getURL());
     }
 
     @Override

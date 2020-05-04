@@ -25,6 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 
@@ -129,10 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
                         // Get the data we want from the JSON object
                         String title = articleObject.getString("title");
-                        //String url = articleObject.getString("url");
-                        //String imageUrl = articleObject.getString("urlToImage");
-                        String url = "google.com";
-                        String imageUrl = "google.com";
+                        String url = URI.create(articleObject.getString("url")).toString();
+                        String imageUrl = URI.create(articleObject.getString("urlToImage")).toString();
 
                         // Create an Article object (our article class object, not the JSON object)
                         Article thisArticle = new Article(title, url, imageUrl);
