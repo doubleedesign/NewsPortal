@@ -6,61 +6,87 @@
     android:layout_weight="1"
     >
 
-    <!--Latest article(s) from NewsAPI.org
-        Progress bar, section heading, RecyclerView, and fine print
-        -->
-    <ProgressBar
-        android:visibility="gone"
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:textSize="12sp"
-        android:textAllCaps="true"
-        android:background="@color/colorPrimary"
-        android:textColor="#FFFFFF"
-        android:text="Latest News"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_latestNews"
+    <LinearLayout
+        android:id="@+id/layout_newsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-    
+        android:orientation="vertical">
+        <!--Latest article(s) from NewsAPI.org
+            Progress bar, section heading, RecyclerView, and fine print
+            -->
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            android:textAllCaps="true"
+            android:background="@color/colorPrimary"
+            android:textColor="#FFFFFF"
+            android:text="Latest News - Australia"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_latestNews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="15dp"
+            android:text="Powered by NewsAPI.org"
+            android:textSize="12sp"
+            android:textColor="#CCC"
+            />
+    </LinearLayout>
 
-    <!--List of news outlets to browse
-        Section heading, fragment placeholder to load outlet details in,
-        RecyclerView to list news outlets
-        -->
+
+    <LinearLayout
+        android:id="@+id/layout_outletsWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_below="@id/layout_newsWrapper">
+        <!--List of news outlets to browse
+            Section heading and recyclerView to list news outlets
+            -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            android:textAllCaps="true"
+            android:background="@color/colorPrimary"
+            android:textColor="#FFFFFF"
+            android:text="Browse news outlets"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_outlets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            />
+    </LinearLayout>
+
+    <!--Fragment placeholder for the news outlet detail opened by each item in the rv_outlets RecyclerView-->
     <FrameLayout
         android:id="@+id/fragment_placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true">
     </FrameLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:textSize="12sp"
-        android:textAllCaps="true"
-        android:background="@color/colorPrimary"
-        android:textColor="#FFFFFF"
-        android:text="Browse news sites"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_outlets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        />
 
 </RelativeLayout>
