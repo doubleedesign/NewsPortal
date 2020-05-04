@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <!--The article heading-->
@@ -12,8 +14,10 @@
         android:id="@+id/textView_articleTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textFontWeight="700"/>
+        android:layout_marginTop="-10dp"
+        android:fontFamily="@font/eb_garamond"
+        android:textColor="#FFF"
+        android:textSize="28sp" />
 
     <!--The URL (hidden field)-->
     <TextView
