@@ -6,33 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Request the latest articles from NewsAPI.org
         String feedURL = "https://newsapi.org/v2/top-headlines?country=au&pageSize=1&apiKey=aee4fbcb084948f185beee555aabaf62";
         if(isInternetAvailable()) {
-            new JSONRequest().execute(feedURL);
+           // TODO
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("Network error");
@@ -89,104 +66,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean isInternetAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
-
-    /**
-     * Class to request JSON data from an API URL
-     * Based on:
-     * @link https://github.com/JEEricsson/test-News/blob/master/app/src/main/java/com/jeanerik/newsapp/ArticlesActivity.java
-     */
-    private class JSONRequest extends AsyncTask<String, String, String> {
-
-        private ProgressDialog pd;
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(MainActivity.this);
-            pd.setMessage("Loading latest news from NewsAPI.org");
-            pd.setCancelable(false);
-            pd.show();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String result = "";
-            URL url;
-            HttpsURLConnection urlConnection = null;
-
-            try {
-                url = new URL(urls[0]);
-                urlConnection = (HttpsURLConnection) url.openConnection();
-
-                if (result != null) {
-                    String response = streamToString(urlConnection.getInputStream());
-                    parseResult(response);
-                    return result;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null) {
-                pd.dismiss();
-            } else {
-                Log.d(TAG, "Issue in onPostExecute");
-            }
-        }
-    }
-
-    String streamToString(InputStream stream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
-        String line;
-        String result = "";
-        while ((line = bufferedReader.readLine()) != null) {
-            result += line;
-        }
-        if (null != stream) {
-            stream.close();
-        }
-
-        return result;
-    }
-
-    /**
-     * Parsing the feed results and get the list
-     * @param result
-     */
-    private void parseResult(String result) {
-
-        try {
-            JSONObject response = new JSONObject(result);
-            JSONArray posts = response.optJSONArray("articles");
-
-            // Get the first article and populate the layout
-            for (int i = 0; i < 1; i++) {
-
-                // Get the data from the JSON object
-                JSONObject post = posts.optJSONObject(i);
-                String title = post.optString("title");
-                String image = post.optString("urlToImage");
-                String description = post.optString("description");
-                String url = post.optString("url");
-
-                // The interface elements
-                ImageView articleImage = findViewById(R.id.imageView_latestArticleImage);
-                TextView articleTitle = findViewById(R.id.textView_latestArticleTitle);
-
-                // Populate
-                articleTitle.setText(title);
-            }
-
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 
