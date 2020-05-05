@@ -67,5 +67,15 @@ public class NewsListFragment extends Fragment {
 
         // Add a basic divider between the items
         rvLinks.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        // Add the latest news article from NewsAPI.org
+        RecyclerView theRecyclerView = view.findViewById(R.id.rv_latestNews);
+        ArticleLoader loader = new ArticleLoader(getContext(), theRecyclerView);
+        if(loader.isInternetAvailable(getContext())) {
+            loader.loadArticles();
+        } else {
+            loader.showLoadingError(getContext());
+        }
+
     }
 }
