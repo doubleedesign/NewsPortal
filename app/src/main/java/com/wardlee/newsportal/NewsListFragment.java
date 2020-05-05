@@ -50,10 +50,6 @@ public class NewsListFragment extends Fragment {
         ImageView logo = view.findViewById(R.id.imageView_logo);
         Outlet.setLogoImage(logo);
 
-        // Set the heading
-        TextView heading = view.findViewById(R.id.textView_heading);
-        heading.setText(Outlet.getName());
-
         // Get the links
         ArrayList<CategoryLink> links = Outlet.getCategoryURLs();
 

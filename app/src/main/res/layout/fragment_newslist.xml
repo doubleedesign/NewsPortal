@@ -5,42 +5,50 @@
     android:background="#FFF"
     >
 
+    <!--Logo-->
     <LinearLayout
         android:id="@+id/linearLayout_logoWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp">
-
-        <!--Logo-->
         <ImageView
             android:id="@id/imageView_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
     </LinearLayout>
 
 
-    <!--Heading (name of news outlet)-->
-    <TextView
-        android:id="@+id/textView_heading"
+    <!--RecyclerView for latest article-->
+    <LinearLayout
+        android:id="@+id/layout_newsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="24sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAlignment="center"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_below="@id/linearLayout_logoWrapper"/>
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_below="@id/linearLayout_logoWrapper"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_latestNews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="15dp"
+            android:text="Powered by NewsAPI.org"
+            android:textSize="12sp"
+            android:textColor="#CCC"
+            />
+    </LinearLayout>
 
-    <!--Hacky border under the heading-->
-    <View
-        android:background="#CCC"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_below="@id/textView_heading"/>
 
     <!--RecyclerView list of category links-->
     <androidx.recyclerview.widget.RecyclerView
@@ -48,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/textView_heading"
+        android:layout_below="@id/layout_newsWrapper"
         />
 
 </RelativeLayout>
