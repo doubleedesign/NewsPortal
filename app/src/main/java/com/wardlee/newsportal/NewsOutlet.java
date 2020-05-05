@@ -10,14 +10,16 @@ public class NewsOutlet {
     private String Name;
     private String LogoName;
     private String BrandColor;
+    private String SecondaryColor;
     private String NewsAPIParam;
     private ArrayList<CategoryLink> CategoryURLs;
 
     // The constructor
-    protected NewsOutlet(String name, String logoName, String color, String apiParam, ArrayList<CategoryLink> urls) {
+    protected NewsOutlet(String name, String logoName, String color, String secondaryColor, String apiParam, ArrayList<CategoryLink> urls) {
         Name = name;
         LogoName = logoName;
         BrandColor = color;
+        SecondaryColor = secondaryColor;
         NewsAPIParam = apiParam;
         CategoryURLs = urls;
     }
@@ -34,9 +36,12 @@ public class NewsOutlet {
         imageview.setImageResource(imageID);
     }
 
-    // Method to get the brand colour
+    // Methods to get the brand colours
     public String getBrandColor() {
         return BrandColor;
+    }
+    public String getSecondaryColor() {
+        return SecondaryColor;
     }
 
     // Method to get the source parameter to be passed to a NewsAPI.org request
