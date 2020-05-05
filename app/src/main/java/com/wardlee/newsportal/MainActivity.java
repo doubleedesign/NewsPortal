@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Request the latest articles from NewsAPI.org
         RecyclerView theRecyclerView = findViewById(R.id.rv_latestNews);
-        ArticleLoader loader = new ArticleLoader(this, theRecyclerView, "all");
+        ArticleLoader loader = new ArticleLoader(this, theRecyclerView, "all", Color.parseColor("#2E2E2E"));
         if(loader.isInternetAvailable(this)) {
             loader.loadArticles();
         } else {

@@ -2,6 +2,7 @@ package com.wardlee.newsportal;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ArticleLoader {
     private Context thisContext;
     private RecyclerView thisRecyclerView;
     private String sourceParam;
+    private int backgroundColor;
 
     // List to store articles from the API
     private ArrayList<Article> articleList = new ArrayList<Article>();
@@ -45,10 +47,11 @@ public class ArticleLoader {
     /**
      * Constructor
      */
-    public ArticleLoader(Context context, RecyclerView recyclerView, String source) {
+    public ArticleLoader(Context context, RecyclerView recyclerView, String source, int bg) {
         thisContext = context;
         thisRecyclerView = recyclerView;
         sourceParam = source;
+        backgroundColor = bg;
     }
 
 
@@ -72,6 +75,16 @@ public class ArticleLoader {
         alertDialog.setTitle("Network error");
         alertDialog.setMessage("Please check your network connection so you can see the latest news from NewsAPI.org and access links in this application.");
         alertDialog.show();
+    }
+
+
+    /**
+     * Utility method to get the text colour (black or white) based on background colour,
+     * ready to send to the adapter
+     * @link https://stackoverflow.com/questions/4672271/reverse-opposing-colors
+     */
+    public int getContrastColor(int colorToConvert) {
+        return colorToConvert ^ 0x00ffffff;
     }
 
 
@@ -134,8 +147,12 @@ public class ArticleLoader {
                     // Lookup the recyclerview in the activity layout
                     RecyclerView rvArticles = thisRecyclerView;
 
-                    // Create adapter passing in the outlets
-                    ArticleAdapter articleAdapter = new ArticleAdapter(articleList, thisContext);
+                    // Get the colours
+                    backgroundColor = backgroundColor;
+                    int textColor = getContrastColor(backgroundColor);
+
+                    // Create adapter passing in the outlets and colours
+                    ArticleAdapter articleAdapter = new ArticleAdapter(articleList, thisContext, backgroundColor, textColor);
 
                     // Attach the adapter to the recyclerview to populate items
                     rvArticles.setAdapter(articleAdapter);

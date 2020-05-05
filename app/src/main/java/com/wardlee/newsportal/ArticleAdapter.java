@@ -2,6 +2,7 @@ package com.wardlee.newsportal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,15 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     // Member variable for the link list
     private ArrayList<Article> ArticleList;
 
+    // Variables for the colours based on the news outlet's brand colours
+    private int bgColor;
+    private int textColor;
+
     // Constructor
-    public ArticleAdapter(ArrayList<Article> articles, Context context) {
+    public ArticleAdapter(ArrayList<Article> articles, Context context, int bg, int text) {
         ArticleList = articles;
+        bgColor = bg;
+        textColor = text;
     }
 
     // Inner class for the viewholder for each item
@@ -40,6 +47,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             ArticleWrapper = itemView.findViewById(R.id.layout_articleItem);
             ArticleTitle = itemView.findViewById(R.id.textView_articleTitle);
             LinkURL = itemView.findViewById(R.id.textView_articleURL);
+
+            // Set interface styling
+            ArticleWrapper.setBackgroundColor(bgColor);
+            ArticleTitle.setTextColor(textColor);
 
             // Add click listener to each item
             ArticleWrapper.setOnClickListener(new View.OnClickListener() {

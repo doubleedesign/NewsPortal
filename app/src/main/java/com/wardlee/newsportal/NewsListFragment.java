@@ -71,12 +71,12 @@ public class NewsListFragment extends Fragment {
         // Add the latest news article from NewsAPI.org
         RecyclerView theRecyclerView = view.findViewById(R.id.rv_latestNews);
         String APIparam = Outlet.getNewsAPIParam();
-        ArticleLoader loader = new ArticleLoader(getContext(), theRecyclerView, APIparam);
+        int background = Color.parseColor(Outlet.getSecondaryColor());
+        ArticleLoader loader = new ArticleLoader(getContext(), theRecyclerView, APIparam, background);
         if(loader.isInternetAvailable(getContext())) {
             loader.loadArticles();
         } else {
             loader.showLoadingError(getContext());
         }
-
     }
 }
