@@ -58,18 +58,11 @@ public class ArticleLoader {
      */
     protected void loadArticles() {
 
-        // Make progress bar visible
-        //final ProgressBar progressBar = thisView.findViewById(R.id.progressBar);
-        //progressBar.setVisibility(View.VISIBLE);
-
         // Create the request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-
-                // Hide the progress bar
-                //progressBar.setVisibility(View.GONE);
 
                 try {
                     // Get the JSON object from the response

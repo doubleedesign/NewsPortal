@@ -17,16 +17,8 @@
         android:paddingEnd="5dp"
         >
         <!--Latest article(s) from NewsAPI.org
-            Progress bar, section heading, RecyclerView, and fine print
+            Section heading, RecyclerView, and fine print
             -->
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
