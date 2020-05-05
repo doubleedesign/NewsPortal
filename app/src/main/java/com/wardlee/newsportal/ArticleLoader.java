@@ -30,13 +30,10 @@ public class ArticleLoader {
     // Tag for debugging
     private static final String TAG = "ArticleLoader";
 
-
+    // Variables to be passed in from the activity or fragment calling the ArticleLoader
     private Context thisContext;
     private RecyclerView thisRecyclerView;
-
-
-    // API URL to get articles from
-    private static final String JSON_URL = "https://newsapi.org/v2/top-headlines?country=au&apiKey=aee4fbcb084948f185beee555aabaf62";
+    private String sourceParam;
 
     // List to store articles from the API
     private ArrayList<Article> articleList = new ArrayList<Article>();
@@ -44,12 +41,14 @@ public class ArticleLoader {
     // How many articles to show
     private int articleQty = 1;
 
+
     /**
      * Constructor
      */
-    public ArticleLoader(Context context, RecyclerView recyclerView) {
+    public ArticleLoader(Context context, RecyclerView recyclerView, String source) {
         thisContext = context;
         thisRecyclerView = recyclerView;
+        sourceParam = source;
     }
 
 
@@ -83,6 +82,23 @@ public class ArticleLoader {
      * @link https://www.simplifiedcoding.net/android-volley-tutorial-fetch-json/
      */
     protected void loadArticles() {
+
+        // Build API URL to get articles from
+        String JSON_URL;
+        // If source parameter is all, use the top headlines in Australia endpoint
+        if(sourceParam == "all") {
+            JSON_URL = "https://newsapi.org/v2/top-headlines?country=au&apiKey=aee4fbcb084948f185beee555aabaf62";
+        }
+        // Check for null source parameter, if it's not null then build the string
+        // If it is null, hide the article recyclerview in this fragment and exit out of this method so no API request is attempted
+        else {
+            if(sourceParam != null) {
+                JSON_URL = "https://newsapi.org/v2/top-headlines?sources=" + sourceParam + "&apiKey=aee4fbcb084948f185beee555aabaf62";
+            } else {
+                thisRecyclerView.setVisibility(View.GONE);
+                return;
+            }
+        }
 
         // Create the request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL, new Response.Listener<String>() {
@@ -133,13 +149,13 @@ public class ArticleLoader {
             }
         },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Display error in toast
-                        Toast.makeText(thisContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Display error in toast
+                Toast.makeText(thisContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Create the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(thisContext);

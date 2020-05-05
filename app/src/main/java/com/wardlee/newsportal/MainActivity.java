@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Request the latest articles from NewsAPI.org
         RecyclerView theRecyclerView = findViewById(R.id.rv_latestNews);
-        ArticleLoader loader = new ArticleLoader(this, theRecyclerView);
+        ArticleLoader loader = new ArticleLoader(this, theRecyclerView, "all");
         if(loader.isInternetAvailable(this)) {
             loader.loadArticles();
         } else {

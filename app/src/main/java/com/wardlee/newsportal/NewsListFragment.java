@@ -70,7 +70,7 @@ public class NewsListFragment extends Fragment {
 
         // Add the latest news article from NewsAPI.org
         RecyclerView theRecyclerView = view.findViewById(R.id.rv_latestNews);
-        ArticleLoader loader = new ArticleLoader(getContext(), theRecyclerView);
+        ArticleLoader loader = new ArticleLoader(getContext(), theRecyclerView, "abc-news-au");
         if(loader.isInternetAvailable(getContext())) {
             loader.loadArticles();
         } else {
