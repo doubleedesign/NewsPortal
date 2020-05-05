@@ -96,6 +96,7 @@ public class ArticleLoader {
      */
     protected void loadArticles() {
 
+        /*
         // Build API URL to get articles from
         String JSON_URL;
         // If source parameter is all, use the top headlines in Australia endpoint
@@ -111,7 +112,13 @@ public class ArticleLoader {
                 thisRecyclerView.setVisibility(View.GONE);
                 return;
             }
-        }
+        }*/
+
+        // NewsAPI.org does allow querying by source (as I originally did above), but several of the outlets we're using
+        // don't have the required ID field set, meaning they can't be queried directly using sources= in the request
+        // However, they do have a source *name* set, which gives me the option to (albeit less efficiently)
+        // loop through all Australian top stories and find the first one where the name matches.
+        String JSON_URL = "https://newsapi.org/v2/top-headlines?country=au&apiKey=aee4fbcb084948f185beee555aabaf62";
 
         // Create the request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_URL, new Response.Listener<String>() {
@@ -126,22 +133,42 @@ public class ArticleLoader {
                     // Get the articles array from the JSON object
                     JSONArray articles = obj.getJSONArray("articles");
 
+                    // How many do we want here?
+                    int qty;
+                    if(sourceParam == "all") {
+                        qty = articleQty; // Just the latest when we've called for all the latest news
+                    } else {
+                        qty = articles.length(); // Get them all because we need to loop through and check stuff
+                    }
+
+                    Log.d(TAG, sourceParam);
+
                     // Loop through the array
-                    for (int i = 0; i < articleQty; i++) {
+                    for (int i = 0; i < qty; i++) {
 
                         // Get the JSON object of this article
                         JSONObject articleObject = articles.getJSONObject(i);
 
-                        // Get the data we want from the JSON object
-                        String title = articleObject.getString("title");
-                        String url = URI.create(articleObject.getString("url")).toString();
-                        String imageUrl = URI.create(articleObject.getString("urlToImage")).toString();
+                        // Check the name against the news outlet source parameter we're looking for
+                        JSONObject articleSource = articleObject.getJSONObject("source");
+                        String articleSourceID = articleSource.getString("id");
+                        String articleSourceName = articleSource.getString("name");
 
-                        // Create an Article object (our article class object, not the JSON object)
-                        Article thisArticle = new Article(title, url, imageUrl);
+                        if((articleSourceID.equals(sourceParam)) || (articleSourceName.equals(sourceParam)) || sourceParam.equals("all")) {
+                            // Get the data we want from the JSON object
+                            String title = articleObject.getString("title");
+                            String url = URI.create(articleObject.getString("url")).toString();
+                            String imageUrl = URI.create(articleObject.getString("urlToImage")).toString();
 
-                        // Add this article to the list that the RecyclerView will use
-                        articleList.add(thisArticle);
+                            // Create an Article object (our article class object, not the JSON object)
+                            Article thisArticle = new Article(title, url, imageUrl);
+
+                            // Add this article to the list that the RecyclerView will use
+                            articleList.add(thisArticle);
+
+                            // Stop after the first match
+                            break;
+                        }
                     }
 
                     // Lookup the recyclerview in the activity layout
