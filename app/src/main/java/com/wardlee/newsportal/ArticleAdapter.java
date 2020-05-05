@@ -7,10 +7,13 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,8 +93,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         Article article = ArticleList.get(position);
 
         // Get layout elements for this item
+        ImageView image = view.findViewById(R.id.imageView_articleImage);
         TextView label = view.findViewById(R.id.textView_articleTitle);
         TextView url = view.findViewById(R.id.textView_articleURL);
+
+        // Set the image
+        Picasso.get()
+                .load(article.getImageUrl())
+                .fit()
+                .centerCrop()
+                .into(image);
 
         // Set the label text
         label.setText(article.getTitle());

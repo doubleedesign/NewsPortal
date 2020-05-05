@@ -141,8 +141,6 @@ public class ArticleLoader {
                         qty = articles.length(); // Get them all because we need to loop through and check stuff
                     }
 
-                    Log.d(TAG, sourceParam);
-
                     // Loop through the array
                     for (int i = 0; i < qty; i++) {
 
