@@ -138,13 +138,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the array list of the actual news outlet objects
         ArrayList<NewsOutlet> outlets = new ArrayList<>();
-        outlets.add(new NewsOutlet("ABC", "abc", "#FFFFFF", ABCLinks));
-        outlets.add(new NewsOutlet("SBS", "sbs", "#FFFFFF", SBSLinks));
-        outlets.add(new NewsOutlet("The Age", "age", "#0a1633", AgeLinks));
-        outlets.add(new NewsOutlet("The Sydney Morning Herald", "smh", "#0a1633", SMHLinks));
-        outlets.add(new NewsOutlet("The Conversation", "conversation", "#FFFFFF", ConvoLinks));
-        outlets.add(new NewsOutlet("The Guardian", "guardian", "#FFFFFF", GuardianLinks));
-        outlets.add(new NewsOutlet("The Saturday Paper", "saturday", "#FFFFFF", SaturdayLinks));
+        outlets.add(new NewsOutlet("ABC", "abc", "#FFFFFF", "abc-news-au", ABCLinks));
+        outlets.add(new NewsOutlet("SBS", "sbs", "#FFFFFF", "", SBSLinks));
+        outlets.add(new NewsOutlet("The Age", "age", "#0a1633", "", AgeLinks));
+        outlets.add(new NewsOutlet("The Sydney Morning Herald", "smh", "#0a1633", "", SMHLinks));
+        outlets.add(new NewsOutlet("The Conversation", "conversation", "#FFFFFF", "", ConvoLinks));
+        outlets.add(new NewsOutlet("The Guardian", "guardian", "#FFFFFF", "", GuardianLinks));
+        outlets.add(new NewsOutlet("The Saturday Paper", "saturday", "#FFFFFF", "", SaturdayLinks));
 
 
         // Return the array list of complete objects, to be passed to an adapter to show them

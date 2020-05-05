@@ -27,4 +27,17 @@
         android:visibility="gone"
         />
 
+    <!--The NewsAPI.org credit-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:text="Powered by NewsAPI.org"
+        android:textSize="12sp"
+        android:textColor="#CCC"
+        />
+
 </LinearLayout>
