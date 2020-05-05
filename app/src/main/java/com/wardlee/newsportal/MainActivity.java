@@ -49,15 +49,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Request the latest articles from NewsAPI.org
-        if(isInternetAvailable()) {
-            RecyclerView theRecyclerView = findViewById(R.id.rv_latestNews);
-            ArticleLoader loader = new ArticleLoader(this, theRecyclerView);
+        RecyclerView theRecyclerView = findViewById(R.id.rv_latestNews);
+        ArticleLoader loader = new ArticleLoader(this, theRecyclerView);
+        if(loader.isInternetAvailable(this)) {
             loader.loadArticles();
         } else {
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle("Network error");
-            alertDialog.setMessage("Please check your network connection so you can see the latest news from NewsAPI.org and access links in this application.");
-            alertDialog.show();
+            loader.showLoadingError(this);
         }
 
         // Lookup the news outlet list recyclerview in the activity layout
@@ -77,18 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Add a basic divider between the items
         rvOutlets.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-    }
-
-
-    /**
-     * Utility function to check if the internet is available before trying to fetch live news
-     * @link https://stackoverflow.com/questions/9570237/android-check-internet-connection/33764301
-     *
-     * @return bool
-     */
-    public boolean isInternetAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 

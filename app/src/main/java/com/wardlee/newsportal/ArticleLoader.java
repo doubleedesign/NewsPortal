@@ -1,6 +1,8 @@
 package com.wardlee.newsportal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -49,6 +51,30 @@ public class ArticleLoader {
         thisContext = context;
         thisRecyclerView = recyclerView;
     }
+
+
+    /**
+     * Utility function to check if the internet is available before trying to fetch live news
+     * @link https://stackoverflow.com/questions/9570237/android-check-internet-connection/33764301
+     *
+     * @return bool
+     */
+    public boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
+
+    /**
+     * Method to show an error dialog if there's no internet connection
+     */
+    protected void showLoadingError(Context context) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Network error");
+        alertDialog.setMessage("Please check your network connection so you can see the latest news from NewsAPI.org and access links in this application.");
+        alertDialog.show();
+    }
+
 
     /**
      * Method to load articles from NewsAPI.org using Volley
@@ -107,13 +133,13 @@ public class ArticleLoader {
             }
         },
 
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Display error in toast
-                Toast.makeText(thisContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Display error in toast
+                        Toast.makeText(thisContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         // Create the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(thisContext);
